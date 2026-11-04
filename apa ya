@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan: Romeo & Fitri</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        luxury: {
+                            black: '#0a0a0a',
+                            dark: '#141414',
+                            gray: '#262626',
+                            light: '#f5f5f7',
+                            white: '#ffffff',
+                            accent: '#333333'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        display: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0a0a0a;
+            color: #f5f5f7;
+        }
+        
+        .font-serif-custom {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        /* Subtle grid background pattern */
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Image hover effect */
+        .img-monochrome {
+            filter: grayscale(100%) contrast(105%);
+            transition: all 0.5s ease;
+        }
+        .img-monochrome:hover {
+            filter: grayscale(0%) contrast(100%);
+        }
+
+        /* Spinning animation for music toggle icon */
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 8s linear infinite;
+        }
+    </style>
+</head>
+<body class="overflow-hidden selection:bg-white selection:text-black" id="main-body">
+
+    <!-- AUDIO PLAYER -->
+    <audio id="bg-music" loop>
+        <!-- Royalty-free wedding melody background -->
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112199.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- FLOATING MUSIC CONTROLLER -->
+    <button id="music-toggle" onclick="toggleMusic()" class="fixed bottom-6 right-6 z-40 bg-white text-black w-12 h-12 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 border border-black hidden">
+        <i id="music-icon" class="fa-solid fa-compact-disc text-xl animate-spin-slow"></i>
+    </button>
+
+    <!-- COVER OVERLAY (LOCK SCREEN) -->
+    <div id="wedding-cover" class="fixed inset-0 z-50 bg-luxury-black text-luxury-white flex flex-col justify-between items-center p-8 border-8 border-luxury-dark transition-all duration-1000 ease-in-out">
+        <div class="w-full text-center pt-8">
+            <span class="tracking-[0.4em] uppercase text-xs font-semibold text-gray-400 block mb-2">The Wedding Of</span>
+            <div class="h-px w-16 bg-white/30 mx-auto"></div>
+        </div>
+
+        <div class="text-center max-w-xl my-auto py-8">
+            <h1 class="font-serif-custom text-5xl md:text-7xl font-normal tracking-tight mb-4">
+                Romeo <span class="italic text-gray-400 font-light">&</span> Fitri
+            </h1>
+            <p class="text-xs uppercase tracking-[0.3em] text-gray-400 mb-8 font-display">15 November 2026</p>
+            
+            <div class="p-6 border border-white/10 rounded-xl bg-luxury-dark/50 backdrop-blur mb-8 max-w-sm mx-auto">
+                <p class="text-xs text-gray-400 uppercase tracking-widest mb-1">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+                <p class="text-lg font-semibold text-white tracking-wide uppercase">Tamu Undangan</p>
+            </div>
+
+            <button onclick="openInvitation()" class="group relative inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-semibold uppercase tracking-widest text-xs rounded-full overflow-hidden transition-all duration-300 hover:bg-gray-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] active:scale-95">
+                <i class="fa-solid fa-envelope-open text-xs transition-transform group-hover:rotate-12"></i>
+                <span>Buka Undangan</span>
+            </button>
+        </div>
+
+        <div class="text-center pb-4 text-xs text-gray-500 tracking-wider">
+            MONOCHROME LUXURY EDITION
+        </div>
+    </div>
+
+    <!-- MAIN INVITATION CONTENT -->
+    <main class="w-full max-w-4xl mx-auto border-x border-white/10 bg-luxury-black min-h-screen relative shadow-2xl">
+        
+        <!-- HERO SECTION -->
+        <section class="relative min-h-screen flex flex-col justify-center items-center text-center p-6 border-b border-white/10 bg-grid-pattern overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-luxury-black/60 to-luxury-black"></div>
+            
+            <div class="relative z-10 space-y-6">
+                <p class="text-xs uppercase tracking-[0.4em] text-gray-400 font-semibold">Kami Mengundang Anda Untuk Merayakan Pernikahan</p>
+                <h1 class="font-serif-custom text-6xl md:text-8xl tracking-tight text-white font-normal">
+                    Romeo <br><span class="italic font-light text-gray-400">&</span> Fitri
+                </h1>
+                <div class="w-24 h-px bg-white/40 mx-auto my-6"></div>
+                <p class="font-display text-lg tracking-[0.2em] text-gray-300 uppercase">Minggu, 15 November 2026</p>
+            </div>
+
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-center z-10 animate-bounce">
+                <i class="fa-solid fa-chevron-down text-gray-500 text-sm"></i>
+            </div>
+        </section>
+
+        <!-- AYAT / QUOTE SECTION -->
+        <section class="py-20 px-6 text-center border-b border-white/10 bg-luxury-dark/40">
+            <div class="max-w-2xl mx-auto space-y-6">
+                <i class="fa-solid fa-quote-left text-3xl text-white/20"></i>
+                <p class="text-sm md:text-base text-gray-300 leading-relaxed font-light italic">
+                    "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari meismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang."
+                </p>
+                <p class="text-xs tracking-widest text-gray-400 uppercase font-semibold font-display">— QS. Ar-Rum: 21</p>
+            </div>
+        </section>
+
+        <!-- BRIDE & GROOM PROFILE SECTION -->
+        <section class="py-24 px-6 border-b border-white/10">
+            <div class="text-center mb-16 space-y-2">
+                <h2 class="font-serif-custom text-3xl md:text-4xl">Mempelai Pengantin</h2>
+                <p class="text-xs uppercase tracking-widest text-gray-400">Dengan Rahmat Allah SWT Kami Mempelai Pasangan</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 items-stretch">
+                <!-- Groom Card -->
+                <div class="p-8 border border-white/10 rounded-2xl bg-luxury-dark/30 backdrop-blur flex flex-col items-center text-center group hover:border-white/40 transition-all duration-500">
+                    <div class="w-48 h-64 mb-6 rounded-xl overflow-hidden border border-white/20 p-1.5 bg-luxury-black shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop" 
+                             alt="Romeo" 
+                             class="w-full h-full object-cover rounded-lg img-monochrome">
+                    </div>
+                    <h3 class="font-serif-custom text-2xl font-semibold mb-2">Romeo, S.T.</h3>
+                    <p class="text-xs text-gray-400 uppercase tracking-wider mb-4 font-display">Putra Pertama Dari</p>
+                    <p class="text-sm text-gray-300 font-light mb-6">
+                        Bapak H. Suparman <br>& Ibu Hj. Endang Rahayu
+                    </p>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="mt-auto inline-flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full text-xs font-semibold tracking-wider uppercase hover:bg-white hover:text-black transition-all">
+                        <i class="fa-brands fa-instagram"></i> @romeo.official
+                    </a>
+                </div>
+
+                <!-- Bride Card -->
+                <div class="p-8 border border-white/10 rounded-2xl bg-luxury-dark/30 backdrop-blur flex flex-col items-center text-center group hover:border-white/40 transition-all duration-500">
+                    <div class="w-48 h-64 mb-6 rounded-xl overflow-hidden border border-white/20 p-1.5 bg-luxury-black shadow-2xl">
+                        <img src="1000201577_42b85a.jpg" 
+                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop';" 
+                             alt="Asmaul Fitri Aulia Putri" 
+                             class="w-full h-full object-cover rounded-lg img-monochrome">
+                    </div>
+                    <h3 class="font-serif-custom text-2xl font-semibold mb-2">Asmaul Fitri Aulia Putri</h3>
+                    <p class="text-xs text-gray-400 uppercase tracking-wider mb-4 font-display">Putri Pertama Dari</p>
+                    <p class="text-sm text-gray-300 font-light mb-6">
+                        Bapak Komari <br>& Ibu Alip Kurnia
+                    </p>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="mt-auto inline-flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full text-xs font-semibold tracking-wider uppercase hover:bg-white hover:text-black transition-all">
+                        <i class="fa-brands fa-instagram"></i> @fitri.aulia
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- COUNTDOWN TIMER SECTION -->
+        <section class="py-20 px-6 border-b border-white/10 text-center bg-luxury-dark/20">
+            <h2 class="font-serif-custom text-3xl mb-3">Menghitung Hari</h2>
+            <p class="text-xs uppercase tracking-[0.3em] text-gray-400 mb-12 font-display">Menuju Hari Bahagia</p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                <div class="p-6 border border-white/10 rounded-xl bg-luxury-black flex flex-col items-center">
+                    <span id="days" class="font-display text-4xl md:text-5xl font-bold mb-2">00</span>
+                    <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">Hari</span>
+                </div>
+                <div class="p-6 border border-white/10 rounded-xl bg-luxury-black flex flex-col items-center">
+                    <span id="hours" class="font-display text-4xl md:text-5xl font-bold mb-2">00</span>
+                    <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">Jam</span>
+                </div>
+                <div class="p-6 border border-white/10 rounded-xl bg-luxury-black flex flex-col items-center">
+                    <span id="minutes" class="font-display text-4xl md:text-5xl font-bold mb-2">00</span>
+                    <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">Menit</span>
+                </div>
+                <div class="p-6 border border-white/10 rounded-xl bg-luxury-black flex flex-col items-center">
+                    <span id="seconds" class="font-display text-4xl md:text-5xl font-bold mb-2">00</span>
+                    <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">Detik</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- EVENT DETAILS SECTION -->
+        <section class="py-24 px-6 border-b border-white/10">
+            <div class="text-center mb-16">
+                <h2 class="font-serif-custom text-3xl md:text-4xl mb-2">Waktu & Lokasi Acara</h2>
+                <p class="text-xs uppercase tracking-widest text-gray-400 font-display">Rangkaian Acara Pernikahan</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Akad Nikah -->
+                <div class="p-8 border border-white/15 rounded-2xl bg-luxury-dark/40 relative overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center mb-6 text-white">
+                            <i class="fa-solid fa-ring text-lg"></i>
+                        </div>
+                        <h3 class="font-serif-custom text-2xl font-semibold mb-2">Akad Nikah</h3>
+                        <div class="w-12 h-px bg-white/20 mb-6"></div>
+                        
+                        <div class="space-y-4 text-sm text-gray-300 mb-8 font-light">
+                            <div class="flex items-start gap-3">
+                                <i class="fa-regular fa-calendar text-gray-400 mt-1"></i>
+                                <span>Minggu, 15 November 2026</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fa-regular fa-clock text-gray-400 mt-1"></i>
+                                <span>08.00 WIB - 10.00 WIB</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-location-dot text-gray-400 mt-1"></i>
+                                <span>Grand Ballroom Hotel Indonesia, Jl. M.H. Thamrin No. 1, Jakarta Pusat</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="w-full py-3 border border-white/20 rounded-xl text-xs font-semibold uppercase tracking-widest text-center hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-map-location-dot"></i> Petunjuk Peta Google Maps
+                    </a>
+                </div>
+
+                <!-- Resepsi -->
+                <div class="p-8 border border-white/15 rounded-2xl bg-luxury-dark/40 relative overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center mb-6 text-white">
+                            <i class="fa-solid fa-glass-cheers text-lg"></i>
+                        </div>
+                        <h3 class="font-serif-custom text-2xl font-semibold mb-2">Resepsi Pernikahan</h3>
+                        <div class="w-12 h-px bg-white/20 mb-6"></div>
+                        
+                        <div class="space-y-4 text-sm text-gray-300 mb-8 font-light">
+                            <div class="flex items-start gap-3">
+                                <i class="fa-regular fa-calendar text-gray-400 mt-1"></i>
+                                <span>Minggu, 15 November 2026</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fa-regular fa-clock text-gray-400 mt-1"></i>
+                                <span>11.00 WIB - 15.00 WIB</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-location-dot text-gray-400 mt-1"></i>
+                                <span>Grand Ballroom Hotel Indonesia, Jl. M.H. Thamrin No. 1, Jakarta Pusat</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="w-full py-3 border border-white/20 rounded-xl text-xs font-semibold uppercase tracking-widest text-center hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-map-location-dot"></i> Petunjuk Peta Google Maps
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHOTO GALLERY SECTION -->
+        <section class="py-24 px-6 border-b border-white/10">
+            <div class="text-center mb-16">
+                <h2 class="font-serif-custom text-3xl md:text-4xl mb-2">Galeri Prewedding</h2>
+                <p class="text-xs uppercase tracking-widest text-gray-400 font-display">Momen Kebersamaan Kami</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="aspect-square rounded-xl overflow-hidden border border-white/10 bg-luxury-dark">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop" alt="Gallery 1" class="w-full h-full object-cover img-monochrome">
+                </div>
+                <div class="aspect-square rounded-xl overflow-hidden border border-white/10 bg-luxury-dark">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop" alt="Gallery 2" class="w-full h-full object-cover img-monochrome">
+                </div>
+                <div class="aspect-square rounded-xl overflow-hidden border border-white/10 bg-luxury-dark">
+                    <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800&auto=format&fit=crop" alt="Gallery 3" class="w-full h-full object-cover img-monochrome">
+                </div>
+                <div class="aspect-square rounded-xl overflow-hidden border border-white/10 bg-luxury-dark">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800&auto=format&fit=crop" alt="Gallery 4" class="w-full h-full object-cover img-monochrome">
+                </div>
+                <div class="aspect-square rounded-xl overflow-hidden border border-white/10 bg-luxury-dark">
+                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=800&auto=format&fit=crop" alt="Gallery 5" class="w-full h-full object-cover img-monochrome">
+                </div>
+                <div class="aspect-square rounded-xl overflow-hidden border border-white/10 bg-luxury-dark">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=8
